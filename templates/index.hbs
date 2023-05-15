@@ -1,0 +1,34 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Titljjjjje</title>
+</head>
+<body>
+
+<ul class="listing category">
+    {{#each o}}
+        <a href="/categories/{{this}}"><li>{{this}}</li></a>
+    {{/each}}
+</ul>
+
+<ul class="people_list">
+    {{#each p}}
+        <li><a href="{{this}}"> {{this}}</li></a>
+    {{/each}}
+</ul>
+
+
+{{q.[1].title}}
+<p>
+
+    {{#each q}}
+    <a href="/posts/{{this.title}}">
+        {{#each this}}  " "
+             {{ this }}
+      {{/each}}<br>
+    {{/each}}</a>
+</p>
+</ul>
+</body>
+</html>
