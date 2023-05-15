@@ -71,11 +71,14 @@ pub async fn pagination_display(params: web::Query<PaginationParams> ) ->HttpRes
 //     let mut posts_pagination:Vec<posts>= select_posts().await.expect("maosdso");
 // let mut total_posts_length:i32= posts_pagination.len() as i32;
 
-  let total_posts_length=  perfect_pagination_logic().await;
+  let mut total_posts_length:f64= perfect_pagination_logic().await as f64;
 // println!("total  jsa djns🔥🔥🔥🔥🔥🔥{:?}", total_posts_lengtss);
 
-  let  posts_per_page=total_posts_length/3;
+  let  posts_per_page=total_posts_length/3.0;
 
+
+    let posts_per_page=posts_per_page.round();
+    let posts_per_page=posts_per_page as i64;
     let mut pages_count=Vec::new();
     for i in 0..posts_per_page{
      pages_count.push(i+1 as i64);

@@ -55,20 +55,6 @@ pub fn paginate<T>(items: Vec<T>, page: i32, per_page: i32) -> Vec<T> {
     items.into_iter().skip(start_index as usize).take(per_page as usize).collect()
 }
 
-//
-// pub async  fn  get_count_of_posts(x:i32) ->i32 {
-//     println!("{:?}",x);
-//     let v=x as i32;
-//   //  static mut n: i32 = v;
-//     let total_pages_count= x  as i32;
-//     println!("😊😊😊😊😊😊{:?}",total_pages_count);
-//
-//     total_pages_count
-//     //println!("{:?}",n.to_string());
-//
-// }
-
-//pub async fn get_users(params: web::Path<String>) -> Result<HttpResponse,MyError> {
 pub async fn pagination_logic(params: web::Query<PaginationParams>  ) -> Result<Vec<posts>,MyError>
 {
 
@@ -81,22 +67,8 @@ pub async fn pagination_logic(params: web::Query<PaginationParams>  ) -> Result<
 
 
     let posts_per_page_length = posts_pagination.len();
-    println!("😀😀😀😀😀😀😀{:?}", &posts_per_page_length);
-     // let response = HttpResponse::Ok().json(paginated_users);
     Ok(paginated_users)
-  //  Ok(())
 }
 
-//
-// fn getss_users(params: web::Query<PaginationParams>) -> Result<HttpResponse> {
-//     let users = vec!["Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Heidi", "Ivan", "Judy"];
-//     let page = params.page.unwrap_or(1);
-//     let per_page = params.per_page.unwrap_or(5);
-//     let paginated_users = paginate(users, page, per_page);
-//
-//
-//     let response = HttpResponse::Ok().json(paginated_users);
-//     Ok(response)
-// }
 
 
