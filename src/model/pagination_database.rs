@@ -60,7 +60,17 @@ pub async fn pagination_logic(params: web::Query<PaginationParams>  ) -> Result<
 
     let page = params.page.unwrap_or(1);
     let per_page = params.per_page.unwrap_or(3);
-let current_page = page +2;
+    println!("---------------------->{:?}", page);
+
+    let exact_current_page = 0;
+    if(page==1)
+    {
+        let current_page = 1;
+
+    }
+        let current_page = page + 2;
+
+    println!("---------------------->{}", current_page);
     select_specific_pages_post(current_page).await.expect("TODO: panic message");
 
 

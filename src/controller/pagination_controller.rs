@@ -105,7 +105,7 @@ pub async fn pagination_display(params: web::Query<PaginationParams> ) ->HttpRes
   //  println!("😊😊😊😊😊{:?}", exact_posts_only);
     // let pagination_count:i32= get_count_of_posts().await;
 // todo call the exact_posts_only function with out parameter or find other way
-    // let exact_posts_only=select_specific_pages_post.await.expect("Aasd");
+  //   let exact_posts_only=select_specific_pages_post().await.expect("Aasd");
 
 //    println!("s😊😊😊😊😊😊{:?}", pagination_count);
 

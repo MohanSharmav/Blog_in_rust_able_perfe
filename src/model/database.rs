@@ -126,7 +126,7 @@ pub async fn select_specific_pages_post(start_page:i32)->Result<Vec<posts>,Error
 
     let mut perfect_posts = sqlx::query_as::<_, posts>("select * from posts where post_id between $1 and $2")
         .bind(start_page)
-        .bind(start_page+3)
+        .bind(start_page+2)
         .fetch_all(&pool)
         .await
         .unwrap();
