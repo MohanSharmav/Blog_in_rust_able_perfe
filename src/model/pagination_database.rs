@@ -2,7 +2,7 @@ use std::fmt::Error;
 
 use actix_web::{web, HttpResponse, Result, ResponseError};
 use serde::Deserialize;
-use crate::model::database::{posts, select_posts};
+use crate::model::database::{posts, select_posts, select_specific_pages_post};
 
 #[derive(Deserialize)]
 pub struct PaginationParams {
@@ -60,6 +60,8 @@ pub async fn pagination_logic(params: web::Query<PaginationParams>  ) -> Result<
 
     let page = params.page.unwrap_or(1);
     let per_page = params.per_page.unwrap_or(3);
+let current_page = page +2;
+    select_specific_pages_post(current_page).await.expect("TODO: panic message");
 
 
     let mut posts_pagination:Vec<posts>= select_posts().await.expect("maosdso");

@@ -98,12 +98,39 @@ pub async fn select_posts()->Result<Vec<posts>,Error>
         .max_connections(100)
         .connect(&db_url)
         .await.expect("Unable to connect to Postgres");
+    //
+    // let mut postsing = sqlx::query_as::<_, posts>("select title, description, name from posts")
+    //     .fetch_all(&pool)
+    //     .await
+    //     .unwrap();
 
     let mut postsing = sqlx::query_as::<_, posts>("select title, description, name from posts")
         .fetch_all(&pool)
         .await
         .unwrap();
 
-
     Ok(postsing)
+}
+
+//new function for selecting specific post with pointers
+pub async fn select_specific_pages_post(start_page:i32)->Result<Vec<posts>,Error>
+{
+    dotenv::dotenv().expect("Unable to load environment variables from .env file");
+
+    let db_url = std::env::var("DATABASE_URL").expect("Unable to read DATABASE_URL env var");
+
+    let mut pool = PgPoolOptions::new()
+        .max_connections(100)
+        .connect(&db_url)
+        .await.expect("Unable to connect to Postgres");
+
+    let mut perfect_posts = sqlx::query_as::<_, posts>("select * from posts where post_id between $1 and $2")
+        .bind(start_page)
+        .bind(start_page+3)
+        .fetch_all(&pool)
+        .await
+        .unwrap();
+
+    println!("⭐⭐⭐⭐⭐⭐{:?}",perfect_posts);
+    Ok(perfect_posts)
 }

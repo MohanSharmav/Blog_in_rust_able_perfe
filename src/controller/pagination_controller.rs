@@ -4,7 +4,7 @@ use serde_json::json;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::{Error, Row};
 use warp::path;
-use crate::model::database::{posts, select_posts};
+use crate::model::database::{posts, select_posts, select_specific_pages_post};
 use crate::model::pagination_database::{ pagination_logic, PaginationParams};
 
 
@@ -74,6 +74,7 @@ pub async fn pagination_display(params: web::Query<PaginationParams> ) ->HttpRes
   let mut total_posts_length:f64= perfect_pagination_logic().await as f64;
 // println!("total  jsa djns🔥🔥🔥🔥🔥🔥{:?}", total_posts_lengtss);
 
+
   let  posts_per_page=total_posts_length/3.0;
 
 
@@ -85,6 +86,9 @@ pub async fn pagination_display(params: web::Query<PaginationParams> ) ->HttpRes
     }
 
     println!("pagesss count{:?}", pages_count);
+
+
+
  //   println!("zzzzzzzzzzzzzz{:?}", total_posts_length);
 // query_single_post(titles.clone()).await.expect("TODO: panic message");
  //   println!("asdsadadsdadadadadadadadadadadadadadad");
@@ -98,7 +102,10 @@ pub async fn pagination_display(params: web::Query<PaginationParams> ) ->HttpRes
     let paginators= pagination_logic(params).await.expect("Aasd");
 
 
+  //  println!("😊😊😊😊😊{:?}", exact_posts_only);
     // let pagination_count:i32= get_count_of_posts().await;
+// todo call the exact_posts_only function with out parameter or find other way
+    // let exact_posts_only=select_specific_pages_post.await.expect("Aasd");
 
 //    println!("s😊😊😊😊😊😊{:?}", pagination_count);
 

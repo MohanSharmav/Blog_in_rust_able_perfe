@@ -6,8 +6,15 @@
 </head>
 <body>
 <p>
+    {{#each tiger}}
+    <a href="/posts/{{this.title}}">
+        {{#each this}}  " "
+            {{ this }}
+        {{/each}}<br>
+    {{/each}}</a>
+<P>
 <ul>
-
+{{tiger}}
 
 
 </ul>
