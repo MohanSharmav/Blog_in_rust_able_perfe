@@ -5,8 +5,9 @@ use serde::Deserialize;
 use crate::model::database::{posts, select_posts, select_specific_pages_post};
 
 #[derive(Deserialize)]
+#[derive(Copy, Clone)]
 pub struct PaginationParams {
-    page: Option<i32>,
+    pub(crate) page: Option<i32>,
     per_page: Option<i32>,
 }
 
@@ -60,18 +61,13 @@ pub async fn pagination_logic(params: web::Query<PaginationParams>  ) -> Result<
 
     let page = params.page.unwrap_or(1);
     let per_page = params.per_page.unwrap_or(3);
-    println!("---------------------->{:?}", page);
+  //  println!("---------------------->{:?}", page);
 
-    let exact_current_page = 0;
-    if(page==1)
-    {
-        let current_page = 1;
 
-    }
-        let current_page = page + 2;
+        // let current_page = page + 2;
 
-    println!("---------------------->{}", current_page);
-    select_specific_pages_post(current_page).await.expect("TODO: panic message");
+  //  println!("---------------------->{}", current_page);
+    // select_specific_pages_post(current_page).await.expect("TODO: panic message");
 
 
     let mut posts_pagination:Vec<posts>= select_posts().await.expect("maosdso");
@@ -81,6 +77,12 @@ pub async fn pagination_logic(params: web::Query<PaginationParams>  ) -> Result<
     let posts_per_page_length = posts_pagination.len();
     Ok(paginated_users)
 }
+
+// pub async fn current_page(params: web::Query<PaginationParams>)->page
+// {
+//     let page = params.page.unwrap_or(1);
+//     page
+// }
 
 
 

@@ -113,11 +113,15 @@ pub async fn select_posts()->Result<Vec<posts>,Error>
 }
 
 //new function for selecting specific post with pointers
-pub async fn select_specific_pages_post(start_page:i32)->Result<Vec<posts>,Error>
+pub async fn select_specific_pages_post(start_page: &Option<i32>) ->Result<Vec<posts>,Error>
 {
+ let   start_page= start_page.unwrap();
+
+
     dotenv::dotenv().expect("Unable to load environment variables from .env file");
 
     let db_url = std::env::var("DATABASE_URL").expect("Unable to read DATABASE_URL env var");
+   // println!("{}{}", start_page,start_page*3);
 
     let mut pool = PgPoolOptions::new()
         .max_connections(100)
@@ -126,7 +130,7 @@ pub async fn select_specific_pages_post(start_page:i32)->Result<Vec<posts>,Error
 
     let mut perfect_posts = sqlx::query_as::<_, posts>("select * from posts where post_id between $1 and $2")
         .bind(start_page)
-        .bind(start_page+2)
+        .bind(start_page*3)
         .fetch_all(&pool)
         .await
         .unwrap();

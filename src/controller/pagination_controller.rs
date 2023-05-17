@@ -65,14 +65,10 @@ pub async  fn  get_count_of_posts () -> HttpResponse {
 
 }
 //
-pub async fn pagination_display(params: web::Query<PaginationParams> ) ->HttpResponse{
-   // let mut titles=path.into_inner();
-//
-//     let mut posts_pagination:Vec<posts>= select_posts().await.expect("maosdso");
-// let mut total_posts_length:i32= posts_pagination.len() as i32;
+pub async fn pagination_display( params: web::Query<PaginationParams> ) ->HttpResponse{
+
 
   let mut total_posts_length:f64= perfect_pagination_logic().await as f64;
-// println!("total  jsa djns🔥🔥🔥🔥🔥🔥{:?}", total_posts_lengtss);
 
 
   let  posts_per_page=total_posts_length/3.0;
@@ -88,28 +84,24 @@ pub async fn pagination_display(params: web::Query<PaginationParams> ) ->HttpRes
     println!("pagesss count{:?}", pages_count);
 
 
-
- //   println!("zzzzzzzzzzzzzz{:?}", total_posts_length);
-// query_single_post(titles.clone()).await.expect("TODO: panic message");
- //   println!("asdsadadsdadadadadadadadadadadadadadad");
-
     let mut handlebars= handlebars::Handlebars::new();
     let index_template = fs::read_to_string("templates/pagination_page.hbs").unwrap();
     handlebars
         .register_template_string("pagination_page", &index_template).expect("TODO: panic message");
 
 
-    let paginators= pagination_logic(params).await.expect("Aasd");
+    let paginators= pagination_logic(params.clone()).await.expect("Aasd");
 
 
   //  println!("😊😊😊😊😊{:?}", exact_posts_only);
     // let pagination_count:i32= get_count_of_posts().await;
 // todo call the exact_posts_only function with out parameter or find other way
-  //   let exact_posts_only=select_specific_pages_post().await.expect("Aasd");
+    let current_page=&params.page;
+     let exact_posts_only=select_specific_pages_post(current_page).await.expect("Aasd");
 
 //    println!("s😊😊😊😊😊😊{:?}", pagination_count);
 
-    let html = handlebars.render("pagination_page", &json!({"a":&paginators,"tt":&total_posts_length,"pages_count":pages_count})).unwrap() ;
+    let html = handlebars.render("pagination_page", &json!({"a":&paginators,"tt":&total_posts_length,"pages_count":pages_count,"tiger":exact_posts_only})).unwrap() ;
     HttpResponse::Ok()
         .content_type("text/html; charset=utf-8")
         .body(html)
