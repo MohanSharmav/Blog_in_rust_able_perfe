@@ -115,8 +115,21 @@ pub async fn select_posts()->Result<Vec<posts>,Error>
 //new function for selecting specific post with pointers
 pub async fn select_specific_pages_post(start_page: &Option<i32>) ->Result<Vec<posts>,Error>
 {
- let   start_page= start_page.unwrap();
+ let   mut start_page= start_page.unwrap();
 
+    let end_posts_count ;
+
+    if(start_page==1)
+    {
+        let end_posts_count = 3;
+    }
+        println!("⭐️{}---{}",start_page,end_posts_count);
+
+    // if(start_page>1)
+    // {
+    //     start_page=start_page+2
+    // }
+    println!("⭐️{}---{}",start_page,start_page*3);
 
     dotenv::dotenv().expect("Unable to load environment variables from .env file");
 
@@ -130,7 +143,7 @@ pub async fn select_specific_pages_post(start_page: &Option<i32>) ->Result<Vec<p
 
     let mut perfect_posts = sqlx::query_as::<_, posts>("select * from posts where post_id between $1 and $2")
         .bind(start_page)
-        .bind(start_page*3)
+        .bind(start_page+2)
         .fetch_all(&pool)
         .await
         .unwrap();
