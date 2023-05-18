@@ -98,11 +98,7 @@ pub async fn select_posts()->Result<Vec<posts>,Error>
         .max_connections(100)
         .connect(&db_url)
         .await.expect("Unable to connect to Postgres");
-    //
-    // let mut postsing = sqlx::query_as::<_, posts>("select title, description, name from posts")
-    //     .fetch_all(&pool)
-    //     .await
-    //     .unwrap();
+
 
     let mut postsing = sqlx::query_as::<_, posts>("select title, description, name from posts")
         .fetch_all(&pool)

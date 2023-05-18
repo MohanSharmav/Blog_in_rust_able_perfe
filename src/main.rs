@@ -30,14 +30,7 @@ use crate::model::pagination_database::{ pagination_logic};
 #[tokio::main]
 async fn main() -> Result<()>{
 
-//test start
-   //  count_posts().await;
-   //   select_specific_pages_post().await;
-  //   get_users("1".to_string()).await.expect("asdsdssd");
-//
-// selecting().await.expect("TODO: panic message");
-//      select_all_from_table().await.expect("paamnaic message");
-//      //test end
+
      HttpServer::new(|| {
           App::new()
 
@@ -47,7 +40,7 @@ async fn main() -> Result<()>{
               .service(web::resource("/users").to(pagination_display))
               .service(web::resource("/new_posts").to(get_new_post))
             .service(web::resource("/recieved").route(web::post().to(index)))
-     //        .service(web::resource("/is-admin").route(web::post().to(set_is_admin)))
+
      })
          .bind("127.0.0.1:8080")?
          .run().await.expect("TODO: panic message");
