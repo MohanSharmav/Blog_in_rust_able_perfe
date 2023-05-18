@@ -115,10 +115,10 @@ pub async fn select_posts()->Result<Vec<posts>,Error>
 //new function for selecting specific post with pointers
 pub async fn select_specific_pages_post(start_page: &Option<i32>) ->Result<Vec<posts>,Error>
 {
- let   mut start_page= start_page.unwrap();
+ let mut start_page= start_page.unwrap();
 
-    let end_posts_count ;
-
+//    let end_posts_count ;
+    let end_posts_count = 3;
     if(start_page==1)
     {
         let end_posts_count = 3;
