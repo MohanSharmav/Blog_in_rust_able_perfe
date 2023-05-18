@@ -18,7 +18,7 @@ pub async fn get_new_post() -> HttpResponse {
 //     let x=&form.username;
 // println!("ads asd");
 //     println!("{:?}",x);
-    let html = handlebars.render("new_post", &json!({"o":"asdadsax"})).unwrap() ;
+    let html = handlebars.render("new_post", &json!({"o":"ax"})).unwrap() ;
     HttpResponse::Ok()
         .content_type("text/html; charset=utf-8")
         .body(html)

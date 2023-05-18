@@ -46,7 +46,7 @@ async fn main() -> Result<()>{
               .service(web::resource("/posts/{title}").to(get_single_post))
               .service(web::resource("/users").to(pagination_display))
               .service(web::resource("/new_posts").to(get_new_post))
-         //   .service(web::resource("/recieved").route(web::post().to(index)))
+            .service(web::resource("/recieved").route(web::post().to(index)))
      //        .service(web::resource("/is-admin").route(web::post().to(set_is_admin)))
      })
          .bind("127.0.0.1:8080")?
