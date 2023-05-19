@@ -49,7 +49,7 @@ pub async fn create_new_category_database(name: &String) -> Result<(), Error>
     Ok(())
 }
 
-pub async fn delete_category_database(to_delete_category: String) -> Result<(), Error>{
+pub async fn delete_category_database(to_delete_category: &String) -> Result<(), Error>{
 
     dotenv::dotenv().expect("Unable to load environment variables from .env file");
 
