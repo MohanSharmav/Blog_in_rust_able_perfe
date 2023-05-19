@@ -8,8 +8,8 @@ use sqlx::FromRow;
 
 #[derive(Deserialize)]
 #[derive(Debug, Clone, PartialEq,Serialize)]
-pub struct Foo {
-    name: String,
+pub struct categories {
+    pub(crate) name: String,
 }
 
 #[derive(Deserialize)]
