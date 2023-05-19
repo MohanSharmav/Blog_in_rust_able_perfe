@@ -64,7 +64,8 @@ println!("🔥🔥🔥🔥🔥🔥🔥🔥");
 
 }
 
-pub async fn delete_category(name: web::Path<String>) -> HttpResponse {
+pub async fn delete_category(name: web::Path<String>) -> HttpResponse
+{
 
     println!("ad🥳s🥳🥳🥳🥳🥳🥳🥳🥳🥳");
     let to_delete_category=name.into_inner();
