@@ -1,11 +1,11 @@
 use std::fmt::Error;
 use std::fs;
 use actix_web::{web, App, HttpResponse, HttpServer};
+use actix_web::web::Path;
 use serde::Deserialize;
 use serde_json::json;
 use crate::model::database::posts;
 use crate::model::posts_database::{create_new_post_database, delete_post_database, update_post_database};
-use actix_web::web::Path;
 
 pub async fn get_new_post() -> HttpResponse {
         let mut handlebars= handlebars::Handlebars::new();
@@ -42,10 +42,10 @@ pub async fn receive_new_posts(form: web::Form<posts>) -> HttpResponse
 }
 
 
-pub async fn delete_post(id: web::Path<String> )->HttpResponse
-{
+pub async fn delete_post(to_be_deleted_post: web::Path<String> )->HttpResponse
+    {
     println!("ads");
-let to_delete=&id.into_inner();
+let to_delete=&to_be_deleted_post.into_inner();
 
 println!("------->{}", to_delete);
 
@@ -65,13 +65,17 @@ println!("------->{}", to_delete);
 
 }
 
-pub async fn  page_to_update_post()->HttpResponse{
+pub async fn  page_to_update_post(to_be_updated_post: web::Path<String> )->HttpResponse{
+
     let mut handlebars= handlebars::Handlebars::new();
     let index_template = fs::read_to_string("templates/update_post.hbs").unwrap();
     handlebars
         .register_template_string("update_post", &index_template).expect("TODO: panic message");
 
-   // println!("🤩🤩🤩🤩🤩{:?}", id);
+   let to_be_updated_post=to_be_updated_post.into_inner();
+   println!("🤩🤩🤩🤩🤩{:?}", to_be_updated_post);
+
+    update_post_helper(to_be_updated_post).await;
 //Todo should send the current post title to the next page
     let html = handlebars.render("update_post", &json!({"o":"ax"})).unwrap() ;
     HttpResponse::Ok()
@@ -79,7 +83,11 @@ pub async fn  page_to_update_post()->HttpResponse{
         .body(html)
 
 }
-pub async fn receive_updated_post(form: web::Form<posts>, id: Path<String>) ->HttpResponse
+
+pub async fn update_post_helper(ids: String) -> String {
+    ids
+}
+pub async fn receive_updated_post(form: web::Form<posts>, id: web::Path<String>) ->HttpResponse
 {
 
     //todo get the data from the url form post method

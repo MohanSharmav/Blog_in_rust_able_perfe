@@ -1,5 +1,6 @@
 use std::fmt::Error;
 use sqlx::postgres::PgPoolOptions;
+use crate::controller::posts_controller::update_post_helper;
 use crate::model::database::posts;
 
 pub async fn create_new_post_database(title: &String, description: &String, name:  &String) -> Result<(),Error> {
@@ -60,7 +61,7 @@ pub async fn update_post_database(title: &String, description: &String, name: &S
         .bind(title)
         .bind(description)
         .bind(name)
-        .bind(current_post_name)
+        .bind(update_post_helper)
         .execute(&pool)
         .await
         .expect("Unable toasdasd");
