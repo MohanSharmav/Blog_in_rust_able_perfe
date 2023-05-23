@@ -4,8 +4,11 @@
     <title>update POST Form</title>
 </head>
 <body>
-<form action="http://localhost:8080/post_updated_successfully" method="post">
-    <input type="text" name="title" placeholder="title"><br>
+<p>
+  {{to_be_updated_post}}
+</p>
+<form action="http://localhost:8080/posts/{{to_be_updated_post}}" method="post">
+    <input type="text" name="title" value="{{to_be_updated_post}}" placeholder="title"><br>
     <input type="text" name="description" placeholder="description"><br>
     <input type="text" name="name" placeholder="name"><br>
     <input type="submit" value="Submit">

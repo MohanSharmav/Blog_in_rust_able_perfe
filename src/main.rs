@@ -36,22 +36,33 @@ async fn main() -> Result<()>{
 
               .service(web::resource("/").to(get_all_posts))
               .service(web::resource("/categories/{name}").to(category_controller))
-              .service(web::resource("/posts/{title}").to(get_single_post))
+              .service(web::resource("/post_specific/{title}").to(get_single_post))
               .service(web::resource("/users").to(pagination_display))
 
+
 //posts
+              .service(web::resource("/posts").to(pagination_display))
+              .service(web::resource("/posts/new").to(get_new_post))
+              .service(web::resource("/posts").route(web::post().to(receive_new_posts)))
+              .service(web::resource("/posts/{title}").to(get_single_post))
+              .service(web::resource("/posts/{title}/edit").route(web::get().to(page_to_update_post)))
 
-              .service(web::resource("/new_posts").to(get_new_post))
-            .service(web::resource("/new_received").route(web::post().to(receive_new_posts)))
-             .service(web::resource("/delete_post/{title}").route(web::delete().to(delete_post)))
-              .service(web::resource("/update_post/{title}").route(web::get().to(page_to_update_post)))
-              .service(web::resource("/post_updated_successfully").route(web::post().to(receive_updated_post)))
+              // Todo change delete_post to the delete method
+             .service(web::resource("/delete_post/{title}").route(web::get().to(delete_post)))
+              .service(web::resource("/posts/{title}").route(web::post().to(receive_updated_post)))
+              // .service(web::resource("/posts/{title}").route(web::delete().to(receive_updated_post)))
 
-              //category
 
-              .service(web::resource("/new_category").to(get_new_category))
-                  .service(web::resource("/category_received").route(web::post().to(receive_new_category)))
-             .service(web::resource("/delete_category/{name}").route(web::delete().to(delete_category)))
+              // category
+//todo create a route /category get all the categories
+
+              .service(web::resource("/category/new").to(get_new_category))
+                  .service(web::resource("/category").route(web::post().to(receive_new_category)))
+              // Todo change delete_post to the delete method and url to --> /category/{name}
+              .service(web::resource("/delete_category/{name}").route(web::get().to(delete_category)))
+              .service(web::resource("/posts/{title}").route(web::post().to(receive_updated_post)))
+              .service(web::resource("/category/{title}/edit").route(web::get().to(page_to_update_post)))
+
 
      })
          .bind("127.0.0.1:8080")?

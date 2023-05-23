@@ -20,6 +20,18 @@ pub struct posts{
     pub(crate) name: String,
 }
 
+#[derive(Deserialize)]
+#[derive(Debug, Clone, PartialEq,Serialize,sqlx::FromRow)]
+pub struct update_post{
+    pub(crate) current_title: String,
+    pub(crate) title: String,
+    pub(crate) description: String,
+    pub(crate) name: String,
+}
+
+
+
+
 pub(crate) async fn selecting() ->Result<Vec<String>, ()>{
 
 
@@ -114,7 +126,7 @@ pub async fn select_specific_pages_post(start_page: &Option<i32>) ->Result<Vec<p
  let mut start_page= start_page.unwrap();
 
 //    let end_posts_count ;
-    let end_posts_count = 3;
+    let end_posts_count = start_page+3;
     if(start_page==1)
     {
         let end_posts_count = 3;
@@ -125,8 +137,8 @@ pub async fn select_specific_pages_post(start_page: &Option<i32>) ->Result<Vec<p
     // {
     //     start_page=start_page+2
     // }
-    println!("⭐️{}---{}",start_page,start_page*3);
-
+    // println!("⭐️{}---{}",start_page,start_page*3);
+println!("🐒{:?}",start_page);
     dotenv::dotenv().expect("Unable to load environment variables from .env file");
 
     let db_url = std::env::var("DATABASE_URL").expect("Unable to read DATABASE_URL env var");
@@ -144,6 +156,6 @@ pub async fn select_specific_pages_post(start_page: &Option<i32>) ->Result<Vec<p
         .await
         .unwrap();
 
-    println!("⭐⭐⭐⭐⭐⭐{:?}",perfect_posts);
+    println!("🐶{:?}",perfect_posts);
     Ok(perfect_posts)
 }

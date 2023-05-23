@@ -23,7 +23,7 @@ pub async fn create_new_post_database(title: &String, description: &String, name
 
 }
 
-pub async fn  delete_post_database(to_delete: &String)->Result<(),Error>
+pub async fn  delete_post_database(to_delete: String) ->Result<(),Error>
 {
     dotenv::dotenv().expect("Unable to load environment variables from .env file");
 
@@ -45,7 +45,7 @@ println!("Successfully deleted");
     Ok(())
 }
 
-pub async fn update_post_database(title: &String, description: &String, name: &String, current_post_name: String) ->Result<(),Error>{
+pub async fn update_post_database(title: &String, description: &String, name: &String, current_post_name: &String) ->Result<(),Error>{
     dotenv::dotenv().expect("Unable to load environment variables from .env file");
 
     let db_url = std::env::var("DATABASE_URL").expect("Unable to read DATABASE_URL env var");
@@ -57,11 +57,11 @@ pub async fn update_post_database(title: &String, description: &String, name: &S
     // UPDATE Customers
     // SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
     // WHERE CustomerID = 1;
-    sqlx::query("update posts set title=$1 ,description=$2,name=$3) where title=$4")
+    sqlx::query("update posts set title=$1 ,description=$2,name=$3 where title=$4")
         .bind(title)
         .bind(description)
         .bind(name)
-        .bind(update_post_helper)
+        .bind(current_post_name)
         .execute(&pool)
         .await
         .expect("Unable toasdasd");
