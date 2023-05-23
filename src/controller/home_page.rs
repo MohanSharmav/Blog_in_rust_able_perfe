@@ -4,7 +4,7 @@ use std::fmt::Display;
 use std::fs;
 use std::future::Future;
 use actix_web::{HttpResponse, web};
-use crate::model::database::{posts, select_all_from_table, select_posts, selecting};
+use crate::model::database::{posts, select_all_from_table, select_posts, get_all_categories};
 use futures::future;
 use serde_json::json;
 use warp::body::json;
@@ -22,7 +22,7 @@ let mut handlebars= handlebars::Handlebars::new();
 
     let home_page=select_all_from_table().await.expect("adssad");
 
-    let all_posts_to_front_end=selecting().await.expect("adssad");
+    let all_posts_to_front_end= get_all_categories().await.expect("adssad");
 
     let all_posts_in_struct:Vec<posts>=select_posts().await.expect("ast");
 

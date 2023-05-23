@@ -2,7 +2,7 @@ use std::fmt::Error;
 
 use actix_web::{web, HttpResponse, Result, ResponseError};
 use serde::Deserialize;
-use crate::model::database::{posts, select_posts, select_specific_pages_post};
+use crate::model::database::{posts, select_posts};
 
 #[derive(Deserialize)]
 #[derive(Copy, Clone)]

@@ -13,13 +13,14 @@ use actix_web::http::StatusCode;
 use tokio::select;
 use warp::reply::with_status;
 use controller::home_page::get_all_posts;
-use model::database::selecting;
+use model::database::get_all_categories;
 use warp::{get, Rejection, Reply};
+// use crate::controller::authentication::Auth::{index, login, logout};
 use crate::controller::category_controller::{category_controller, delete_category, get_new_category, receive_new_category};
 use crate::controller::pagination_controller::{pagination_display, perfect_pagination_logic};
 use crate::controller::posts_controller::{delete_post, get_new_post, page_to_update_post, receive_new_posts, receive_updated_post};
 use crate::controller::single_post_controller::get_single_post;
-use crate::model::database::{select_all_from_table, select_specific_pages_post};
+use crate::model::database::{select_all_from_table};
 use crate::model::pagination_database::{ pagination_logic};
 
 
@@ -35,7 +36,6 @@ async fn main() -> Result<()>{
           App::new()
 
               .service(web::resource("/").to(get_all_posts))
-              .service(web::resource("/categories/{name}").to(category_controller))
               .service(web::resource("/post_specific/{title}").to(get_single_post))
               .service(web::resource("/users").to(pagination_display))
 
@@ -56,6 +56,7 @@ async fn main() -> Result<()>{
               // category
 //todo create a route /category get all the categories
 
+              .service(web::resource("/categories/{name}").to(category_controller))
               .service(web::resource("/category/new").to(get_new_category))
                   .service(web::resource("/category").route(web::post().to(receive_new_category)))
               // Todo change delete_post to the delete method and url to --> /category/{name}
@@ -63,6 +64,13 @@ async fn main() -> Result<()>{
               .service(web::resource("/posts/{title}").route(web::post().to(receive_updated_post)))
               .service(web::resource("/category/{title}/edit").route(web::get().to(page_to_update_post)))
 
+
+          // Authentication
+          //
+          //     .service(web::resource("/").to(index))
+          //     .service(web::resource("/login").to(login))
+          //     .service(web::resource("/logout").to(logout))
+          //
 
      })
          .bind("127.0.0.1:8080")?

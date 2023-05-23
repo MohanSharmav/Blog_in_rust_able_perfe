@@ -32,7 +32,7 @@ pub struct update_post{
 
 
 
-pub(crate) async fn selecting() ->Result<Vec<String>, ()>{
+pub(crate) async fn get_all_categories() ->Result<Vec<String>, ()>{
 
 
     dotenv::dotenv().expect("Unable to load environment variables from .env file");
@@ -118,44 +118,4 @@ pub async fn select_posts()->Result<Vec<posts>,Error>
         .unwrap();
 
     Ok(postsing)
-}
-
-//new function for selecting specific post with pointers
-pub async fn select_specific_pages_post(start_page: &Option<i32>) ->Result<Vec<posts>,Error>
-{
- let mut start_page= start_page.unwrap();
-
-//    let end_posts_count ;
-    let end_posts_count = start_page+3;
-    if(start_page==1)
-    {
-        let end_posts_count = 3;
-    }
-        println!("⭐️{}---{}",start_page,end_posts_count);
-
-    // if(start_page>1)
-    // {
-    //     start_page=start_page+2
-    // }
-    // println!("⭐️{}---{}",start_page,start_page*3);
-println!("🐒{:?}",start_page);
-    dotenv::dotenv().expect("Unable to load environment variables from .env file");
-
-    let db_url = std::env::var("DATABASE_URL").expect("Unable to read DATABASE_URL env var");
-   // println!("{}{}", start_page,start_page*3);
-
-    let mut pool = PgPoolOptions::new()
-        .max_connections(100)
-        .connect(&db_url)
-        .await.expect("Unable to connect to Postgres");
-
-    let mut perfect_posts = sqlx::query_as::<_, posts>("select * from posts where post_id between $1 and $2")
-        .bind(start_page)
-        .bind(start_page+2)
-        .fetch_all(&pool)
-        .await
-        .unwrap();
-
-    println!("🐶{:?}",perfect_posts);
-    Ok(perfect_posts)
 }

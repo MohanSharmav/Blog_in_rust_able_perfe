@@ -4,9 +4,10 @@ use serde_json::json;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::{Error, Row};
 use warp::path;
-use crate::model::database::{posts, select_posts, select_specific_pages_post};
+use crate::controller::pagination_logic::select_specific_pages_post;
+use crate::model::database::{posts, select_posts, get_all_categories};
 use crate::model::pagination_database::{ pagination_logic, PaginationParams};
-
+use crate::model::Single_posts_database::query_single_post;
 
 
 pub async  fn  get_count_of_posts () -> HttpResponse {
@@ -55,6 +56,11 @@ pub async  fn  get_count_of_posts () -> HttpResponse {
     handlebars
         .register_template_string("pagination_page", &index_template).expect("TODO: panic message");
 
+    // let all_categories= get_all_categories().await.expect("adssad");
+// println!("------{:?}", all_categories);
+    // path: web::Path<String>
+   // let single_post=query_single_post(titles).await.expect("TODO: panic message");
+
     println!("😊😊😊😊😊😊ijhijijijij 😊😊😊😊😊😊 {:?}",total_posts_count);
     let html = handlebars.render("pagination_page", &json!({"bb":&total_posts_count,"yy":"uuihiuhuihiuhuih"})).unwrap() ;
 
@@ -99,9 +105,11 @@ pub async fn pagination_display( params: web::Query<PaginationParams> ) ->HttpRe
     let current_page=&params.page;
      let exact_posts_only=select_specific_pages_post(current_page).await.expect("Aasd");
 
+    let all_category= get_all_categories().await.expect("adssad");
+
 //    println!("s😊😊😊😊😊😊{:?}", pagination_count);
 
-    let html = handlebars.render("pagination_page", &json!({"a":&paginators,"tt":&total_posts_length,"pages_count":pages_count,"tiger":exact_posts_only})).unwrap() ;
+    let html = handlebars.render("pagination_page", &json!({"a":&paginators,"tt":&total_posts_length,"pages_count":pages_count,"tiger":exact_posts_only,"o":all_category})).unwrap() ;
     HttpResponse::Ok()
         .content_type("text/html; charset=utf-8")
         .body(html)
