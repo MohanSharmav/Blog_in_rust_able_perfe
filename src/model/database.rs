@@ -32,7 +32,7 @@ pub struct update_post{
 
 
 
-pub(crate) async fn get_all_categories() ->Result<Vec<String>, ()>{
+pub(crate) async fn get_all_categories() ->Result<Vec<String>, Error>{
 
 
     dotenv::dotenv().expect("Unable to load environment variables from .env file");

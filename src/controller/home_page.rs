@@ -8,7 +8,7 @@ use crate::model::database::{posts, select_all_from_table, select_posts, get_all
 use futures::future;
 use serde_json::json;
 use warp::body::json;
-use crate::controller::category_controller::category_controller;
+use crate::controller::category_controller::specific_category_controller;
 
 pub async fn get_all_posts()-> HttpResponse
 {

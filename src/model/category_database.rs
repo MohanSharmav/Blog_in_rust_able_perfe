@@ -2,7 +2,38 @@ use std::arch::asm;
 use sqlx::Error;
 use sqlx::postgres::PgPoolOptions;
 use crate::model::database::posts;
+use sqlx::Row;
 
+
+    pub(crate) async fn get_all_categories_database() ->Result<Vec<String>, ()>
+    {
+        dotenv::dotenv().expect("Unable to load environment variables from .env file");
+
+        let db_url = std::env::var("DATABASE_URL").expect("Unable to read DATABASE_URL env var");
+
+        let mut pool = PgPoolOptions::new()
+            .max_connections(100)
+            .connect(&db_url)
+            .await.expect("Unable to connect to Postgres");
+
+
+        let mut vect=Vec::new();
+        let  rows = sqlx::query("SELECT name FROM categories")
+            .fetch_all(&pool)
+            .await.expect("Unable to");
+
+        for row in rows{
+            let names: String=row.get("name");
+
+            //  let original_Array =Foo { name: names.to_string() };
+
+            vect.push(names);
+
+        }
+
+
+        Ok(vect)
+}
 pub async fn category_controller_database_function(category:String)->Result<Vec<posts>,Error>
 {
 
