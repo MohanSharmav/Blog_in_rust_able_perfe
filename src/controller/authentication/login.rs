@@ -54,7 +54,7 @@ println!("🦋");
 
     Identity::login(&req.extensions(), user.to_string()).unwrap();
 
-    web::Redirect::to("/").using_status_code(StatusCode::FOUND);
+    // web::Redirect::to("/").using_status_code(StatusCode::FOUND);
 
 
     let success_message="user successfully authenticated";
