@@ -1,9 +1,8 @@
 use sqlx::postgres::PgPoolOptions;
 
-pub async fn login()
+pub async fn login_database(user: &String, password: &String)
 {
 
-    println!(" inn database--------   - --{}", category);
 
     dotenv::dotenv().expect("Unable to load environment variables from .env file");
 

@@ -12,6 +12,7 @@ use actix_web::{
     http::StatusCode,
     middleware, App, HttpMessage as _, HttpRequest, HttpServer, Responder,
 };
+use crate::model::authentication::login_database::login_database;
 
 #[derive(Debug, Clone, PartialEq,Deserialize)]
 pub struct user{
@@ -49,7 +50,7 @@ println!("🦋");
         .register_template_string("message_display", &index_template).expect("TODO: panic message");
 
 
-
+login_database(user, password);
 
 
     Identity::login(&req.extensions(), user.to_string()).unwrap();
