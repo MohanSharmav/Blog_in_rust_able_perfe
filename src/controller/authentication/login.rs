@@ -34,7 +34,7 @@ pub async fn get_login_page() -> HttpResponse {
         .body(html)
 }
 
-pub async fn get_data_from_login_page(form: web::Form<user>) -> HttpResponse
+pub async fn get_data_from_login_page(form: web::Form<user>,    req: HttpRequest) -> HttpResponse
 {
 println!("🦋");
 
@@ -48,7 +48,11 @@ println!("🦋");
     handlebars
         .register_template_string("message_display", &index_template).expect("TODO: panic message");
 
-    Identity::login(, "user".to_owned()).unwrap();
+
+
+
+
+    Identity::login(&req.extensions(), user.to_string()).unwrap();
 
     web::Redirect::to("/").using_status_code(StatusCode::FOUND);
 

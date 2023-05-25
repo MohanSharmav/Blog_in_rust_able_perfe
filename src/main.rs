@@ -25,17 +25,38 @@ use crate::model::database::{select_all_from_table};
 use crate::model::pagination_database::{ pagination_logic};
 
 
+
+use actix_web::cookie::Key;
+use actix_web::dev::{fn_service, ServiceRequest, ServiceResponse};
+
+use actix_identity::IdentityMiddleware;
+use actix_session::config::PersistentSession;
+use actix_session::storage::CookieSessionStore;
+use actix_session::SessionMiddleware;
+
 // async fn index(req: HttpRequest)->Responder<Body=()> {
 //      println!("🏏🏏🏏🏏");
 // }
 
+pub(crate) const COOKIE_DURATION: actix_web::cookie::time::Duration =
+     actix_web::cookie::time::Duration::minutes(30);
+
 #[tokio::main]
 async fn main() -> Result<()>{
 
+     let secret_key = Key::generate();
 
-     HttpServer::new(|| {
-          App::new()
-
+     #[cfg(feature = "cors_for_local_development")]
+         let cookie_secure = false;
+     #[cfg(not(feature = "cors_for_local_development"))]
+         let cookie_secure = true;
+     HttpServer::new(move|| {
+          App::new().wrap(SessionMiddleware::builder(CookieSessionStore::default(),secret_key.clone())
+              .cookie_name("adf-obdd-service-auth".to_owned())
+              .cookie_secure(cookie_secure)
+              .session_lifecycle(PersistentSession::default().session_ttl(COOKIE_DURATION))
+              .build()
+          )
               .service(web::resource("/").to(get_all_posts))
               .service(web::resource("/post_specific/{title}").to(get_single_post))
               .service(web::resource("/users").to(pagination_display))
@@ -70,6 +91,8 @@ async fn main() -> Result<()>{
           // Authentication
           //
            //    .service(web::resource("/").to(index))
+
+              .wrap(IdentityMiddleware::default())
                .service(web::resource("/login").to(get_login_page))
              .service(web::resource("/login-success").route(web::post().to(get_data_from_login_page)))
           //
