@@ -50,13 +50,12 @@ println!("🦋");
         .register_template_string("message_display", &index_template).expect("TODO: panic message");
 
 
-login_database(user, password);
+let x=login_database(user, password).await;
 
+
+if(x==1) {
 
     Identity::login(&req.extensions(), user.to_string()).unwrap();
-
-    // web::Redirect::to("/").using_status_code(StatusCode::FOUND);
-
 
     let success_message="user successfully authenticated";
     let html = handlebars.render("message_display", &json!({"message":success_message})).unwrap() ;
@@ -65,6 +64,20 @@ login_database(user, password);
     HttpResponse::Ok()
         .content_type("text/html; charset=utf-8")
         .body(html)
+}else{
+     HttpResponse::BadRequest().body("Invalid email or password")
+
+}
+    // web::Redirect::to("/").using_status_code(StatusCode::FOUND);
+
+
+    // let success_message="user successfully authenticated";
+    // let html = handlebars.render("message_display", &json!({"message":success_message})).unwrap() ;
+    //
+    //
+    // HttpResponse::Ok()
+    //     .content_type("text/html; charset=utf-8")
+    //     .body(html)
 }
 
 
