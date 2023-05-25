@@ -7,7 +7,7 @@ use serde::Deserialize;
 use sqlx::FromRow;
 
 #[derive(Deserialize)]
-#[derive(Debug, Clone, PartialEq,Serialize)]
+#[derive(Debug, Clone, PartialEq,Serialize,sqlx::FromRow)]
 pub struct categories {
     pub(crate) name: String,
 }

@@ -15,8 +15,9 @@ use warp::reply::with_status;
 use controller::home_page::get_all_posts;
 use model::database::get_all_categories;
 use warp::{get, Rejection, Reply};
+use crate::controller::authentication::login::{get_data_from_login_page, get_login_page};
 // use crate::controller::authentication::Auth::{index, login, logout};
-use crate::controller::category_controller::{specific_category_controller, delete_category, get_new_category, receive_new_category, get_all_categories_controller};
+use crate::controller::category_controller::{specific_category_controller, delete_category, get_new_category, receive_new_category};
 use crate::controller::pagination_controller::{pagination_display, perfect_pagination_logic};
 use crate::controller::posts_controller::{delete_post, get_new_post, page_to_update_post, receive_new_posts, receive_updated_post};
 use crate::controller::single_post_controller::get_single_post;
@@ -55,7 +56,8 @@ async fn main() -> Result<()>{
 
               // category
 //todo create a route /category get all the categories
-              .service(web::resource("/categories").route(web::get().to(get_all_categories_controller)))
+//  .service(web::resource("/ca").route(web::get().to(get_all_categories_controller())))
+           //   .service(web::resource("/c").route(web::get().to(get_all_categories_controller)))
               .service(web::resource("/categories/{name}").to(specific_category_controller))
               .service(web::resource("/category/new").to(get_new_category))
                   .service(web::resource("/category").route(web::post().to(receive_new_category)))
@@ -67,9 +69,9 @@ async fn main() -> Result<()>{
 
           // Authentication
           //
-          //     .service(web::resource("/").to(index))
-          //     .service(web::resource("/login").to(login))
-          //     .service(web::resource("/logout").to(logout))
+           //    .service(web::resource("/").to(index))
+               .service(web::resource("/login").to(get_login_page))
+             .service(web::resource("/login-success").route(web::post().to(get_data_from_login_page)))
           //
 
      })
