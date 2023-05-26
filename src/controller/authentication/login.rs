@@ -16,8 +16,8 @@ use crate::model::authentication::login_database::login_database;
 
 #[derive(Debug, Clone, PartialEq,Deserialize)]
 pub struct user{
-    username: String,
-    password: String
+    pub(crate) username: String,
+    pub(crate) password: String
 }
 pub async fn get_login_page() -> HttpResponse {
     println!("Welcome to login page");
@@ -68,16 +68,7 @@ if(x==1) {
      HttpResponse::BadRequest().body("Invalid email or password")
 
 }
-    // web::Redirect::to("/").using_status_code(StatusCode::FOUND);
 
-
-    // let success_message="user successfully authenticated";
-    // let html = handlebars.render("message_display", &json!({"message":success_message})).unwrap() ;
-    //
-    //
-    // HttpResponse::Ok()
-    //     .content_type("text/html; charset=utf-8")
-    //     .body(html)
 }
 
 

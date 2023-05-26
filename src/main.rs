@@ -33,6 +33,7 @@ use actix_identity::IdentityMiddleware;
 use actix_session::config::PersistentSession;
 use actix_session::storage::CookieSessionStore;
 use actix_session::SessionMiddleware;
+use crate::controller::authentication::register::{get_data_from_register_page, get_register_page};
 
 // async fn index(req: HttpRequest)->Responder<Body=()> {
 //      println!("🏏🏏🏏🏏");
@@ -87,7 +88,6 @@ async fn main() -> Result<()>{
               .service(web::resource("/posts/{title}").route(web::post().to(receive_updated_post)))
               .service(web::resource("/category/{title}/edit").route(web::get().to(page_to_update_post)))
               .service(web::resource("/category/{title}"))
-              .service(web::resource("/logout").to(logout))
 
           // Authentication
           //
@@ -96,6 +96,11 @@ async fn main() -> Result<()>{
               .wrap(IdentityMiddleware::default())
                .service(web::resource("/login").to(get_login_page))
              .service(web::resource("/login-success").route(web::post().to(get_data_from_login_page)))
+              .service(web::resource("/logout").to(logout))
+
+              .service(web::resource("/register").to(get_register_page))
+              .service(web::resource("/register-successful").route(web::post().to(get_data_from_register_page)))
+
           //
 
      })
