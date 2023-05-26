@@ -1,7 +1,7 @@
-use sqlx::Error;
+use sqlx::{Error, Row};
 use sqlx::postgres::PgPoolOptions;
 
-pub async fn login_database(user: &String, password: &String) -> i32
+pub async fn login_database(user: &String, password: &String) -> i64
 {
     dotenv::dotenv().expect("Unable to load environment variables from .env file");
 
@@ -12,14 +12,15 @@ pub async fn login_database(user: &String, password: &String) -> i32
         .connect(&db_url)
         .await.expect("Unable to connect to Postgres");
 
-  let v=  sqlx::query("select count(1) from users where name=$1 AND password=$2")
+  let v: (i64,)=  sqlx::query_as("select count(1) from users where name=$1 AND password=$2")
         .bind(user)
         .bind(password)
-        .fetch_all(&pool)
+        .fetch_one(&pool)
         .await.expect("unable to fetch the user");
 
     println!("successfully logged in");
     let user=user.to_string();
     let password = password.to_string();
-v.get(0)
+
+    v.0
 }

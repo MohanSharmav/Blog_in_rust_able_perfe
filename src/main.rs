@@ -15,7 +15,7 @@ use warp::reply::with_status;
 use controller::home_page::get_all_posts;
 use model::database::get_all_categories;
 use warp::{get, Rejection, Reply};
-use crate::controller::authentication::login::{get_data_from_login_page, get_login_page};
+use crate::controller::authentication::login::{get_data_from_login_page, get_login_page, logout};
 // use crate::controller::authentication::Auth::{index, login, logout};
 use crate::controller::category_controller::{specific_category_controller, delete_category, get_new_category, receive_new_category};
 use crate::controller::pagination_controller::{pagination_display, perfect_pagination_logic};
@@ -86,7 +86,8 @@ async fn main() -> Result<()>{
               .service(web::resource("/delete_category/{name}").route(web::get().to(delete_category)))
               .service(web::resource("/posts/{title}").route(web::post().to(receive_updated_post)))
               .service(web::resource("/category/{title}/edit").route(web::get().to(page_to_update_post)))
-
+              .service(web::resource("/category/{title}"))
+              .service(web::resource("/logout").to(logout))
 
           // Authentication
           //
