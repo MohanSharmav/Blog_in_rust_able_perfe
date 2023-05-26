@@ -85,7 +85,6 @@ if(x==1) {
 pub async fn logout(id: Identity) -> impl Responder {
     id.logout();
 
-  return   HttpResponse::Ok().body("Logout successful!");
 
-    // web::Redirect::to("/").using_status_code(StatusCode::FOUND)
+    web::Redirect::to("/").using_status_code(StatusCode::FOUND)
 }
