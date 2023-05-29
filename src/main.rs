@@ -35,6 +35,7 @@ use actix_session::storage::CookieSessionStore;
 use actix_session::SessionMiddleware;
 use crate::controller::authentication::register::{get_data_from_register_page, get_register_page};
 
+
 // async fn index(req: HttpRequest)->Responder<Body=()> {
 //      println!("🏏🏏🏏🏏");
 // }

@@ -25,8 +25,14 @@ futures = "0.3"
 arrow2_convert = "0.4.2"
 serde_json = "1.0.96"
 
+
+
 argon2 = "0.5.0"
 
+argonautica = "0.2.0"
+hmac = "0.12.1"
+jwt = "0.16.0"
+sha2 = "0.10.6"
 
 
 

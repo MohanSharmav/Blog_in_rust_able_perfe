@@ -20,6 +20,10 @@ use argon2::password_hash::rand_core::OsRng;
 use argon2::password_hash::SaltString;
 use argon2::{Argon2, PasswordHash, PasswordHasher, PasswordVerifier};
 
+use argonautica::{Hasher, Verifier};
+use hmac::{Hmac, Mac};
+use jwt::SignWithKey;
+use sha2::Sha256;
 
 #[derive(Debug, Clone, PartialEq,Deserialize)]
 pub struct user{
@@ -47,8 +51,8 @@ pub async fn get_data_from_login_page(form: web::Form<user>,    req: HttpRequest
 println!("🦋");
 
  let user = &form.username;
-    let password=&form.password;
-
+    let password=&form.password.to_string();
+// let passwording=
     println!("{}", user);
 
     let mut handlebars= handlebars::Handlebars::new();
@@ -57,17 +61,29 @@ println!("🦋");
         .register_template_string("message_display", &index_template).expect("TODO: panic message");
 
     //
-    // let stored_password = match &user.password {
-    //     None => return HttpResponse::BadRequest().body("Invalid username or password"), // NOTE: login as tremporary user is not allowed
+    // let stored_password = match password {
+    //     None => {
+    //         let error_message = String::from("Invalid username or password");
+    //         return HttpResponse::BadRequest().body(error_message);
+    //     },
     //     Some(password) => password,
     // };
     //
     // let stored_hash = PasswordHash::new("asd-asd").unwrap();
     // let pw_valid = Argon2::default()
-    //     .verify_password(pw.as_bytes(), &stored_hash)
+    //     .verify_password(password.as_bytes(), &stored_hash)
     //     .is_ok();
-
-
+    //
+    // println!("{:?}",pw_valid);
+    //
+    //
+    // let hash_secret = std::env::var("HASH_SECRET").expect("HASH_SECRET must be set!");
+    // let mut hasher = Hasher::default();
+    // let hash = hasher
+    //     .with_password(user.password)
+    //     .with_secret_key(hash_secret)
+    //     .hash()
+    //     .unwrap();
 let x=login_database(user, password).await;
 
 
@@ -77,6 +93,7 @@ let x=login_database(user, password).await;
 if(x==1) {
 
     Identity::login(&req.extensions(), user.to_string()).unwrap();
+
 
     let success_message="user successfully authenticated";
     let html = handlebars.render("message_display", &json!({"message":success_message})).unwrap() ;
@@ -98,5 +115,6 @@ pub async fn logout(id: Identity) -> impl Responder {
     id.logout();
 
 
-    web::Redirect::to("/").using_status_code(StatusCode::FOUND)
+    //web::Redirect::to("/").using_status_code(StatusCode::FOUND)
+    web::Redirect::to("/")
 }
