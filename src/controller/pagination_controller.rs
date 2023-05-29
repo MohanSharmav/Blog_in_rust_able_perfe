@@ -109,10 +109,19 @@ pub async fn pagination_display( params: web::Query<PaginationParams> ) ->HttpRe
 
 //    println!("s😊😊😊😊😊😊{:?}", pagination_count);
 
-    let html = handlebars.render("pagination_page", &json!({"a":&paginators,"tt":&total_posts_length,"pages_count":pages_count,"tiger":exact_posts_only,"o":all_category})).unwrap() ;
+   let html = handlebars.render("pagination_page", &json!({"a":&paginators,"tt":&total_posts_length,"pages_count":pages_count,"tiger":exact_posts_only,"o":all_category})).unwrap() ;
+
+    let mut handlebarss= handlebars::Handlebars::new();
+    let index_templates = fs::read_to_string("templates/admin_page.hbs").unwrap();
+    handlebarss
+        .register_template_string("admin_page", &index_templates).expect("TODO: panic message");
+
+    let htmls = handlebarss.render("admin_page", &json!({"a":&paginators,"tt":&total_posts_length,"pages_count":pages_count,"tiger":exact_posts_only,"o":all_category})).unwrap() ;
+
+
     HttpResponse::Ok()
         .content_type("text/html; charset=utf-8")
-        .body(html)
+        .body(htmls)
 
 }
 

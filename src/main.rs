@@ -104,8 +104,9 @@ async fn main() -> Result<()>{
               .service(web::resource("/register").to(get_register_page))
               .service(web::resource("/register-successful").route(web::post().to(get_data_from_register_page)))
 
-          //
+          //admin only
 
+              .service(web::resource("/admin").to(pagination_display))
      })
          .bind("127.0.0.1:8080")?
          .run().await.expect("TODO: panic message");
