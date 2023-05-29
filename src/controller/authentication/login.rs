@@ -94,6 +94,8 @@ if(x==1) {
 
     Identity::login(&req.extensions(), user.to_string()).unwrap();
 
+   // web::Redirect::to("/users?page=1")
+
 
     let success_message="user successfully authenticated";
     let html = handlebars.render("message_display", &json!({"message":success_message})).unwrap() ;
