@@ -14,6 +14,13 @@ use actix_web::{
 };
 use crate::model::authentication::login_database::login_database;
 
+
+//extra
+use argon2::password_hash::rand_core::OsRng;
+use argon2::password_hash::SaltString;
+use argon2::{Argon2, PasswordHash, PasswordHasher, PasswordVerifier};
+
+
 #[derive(Debug, Clone, PartialEq,Deserialize)]
 pub struct user{
     pub(crate) username: String,
@@ -49,8 +56,22 @@ println!("🦋");
     handlebars
         .register_template_string("message_display", &index_template).expect("TODO: panic message");
 
+    //
+    // let stored_password = match &user.password {
+    //     None => return HttpResponse::BadRequest().body("Invalid username or password"), // NOTE: login as tremporary user is not allowed
+    //     Some(password) => password,
+    // };
+    //
+    // let stored_hash = PasswordHash::new("asd-asd").unwrap();
+    // let pw_valid = Argon2::default()
+    //     .verify_password(pw.as_bytes(), &stored_hash)
+    //     .is_ok();
+
 
 let x=login_database(user, password).await;
+
+
+
 
 
 if(x==1) {

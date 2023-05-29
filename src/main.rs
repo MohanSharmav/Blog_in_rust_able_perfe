@@ -44,8 +44,10 @@ pub(crate) const COOKIE_DURATION: actix_web::cookie::time::Duration =
 
 #[tokio::main]
 async fn main() -> Result<()>{
-
      let secret_key = Key::generate();
+
+  //   let secret_key = Secret::new("my-secret");
+     // let encrypted_data = secrecy::encrypt(secret, "my-data");
 
      #[cfg(feature = "cors_for_local_development")]
          let cookie_secure = false;
