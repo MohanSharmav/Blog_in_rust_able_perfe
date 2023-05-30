@@ -18,12 +18,12 @@
 <select name="text" id="name" name="name">
 
     {{#each all_categories}}
-        <option value="{{this.name}}">{{this.name}}</option>
+        <option value="{{this.name}}"  placeholder="name" name="name">{{this.name}}</option>
 
 {{/each}}
 </select>
 
-        <input type="text" name="name" placeholder="name"><br>
+<!--        <input type="text" name="name" placeholder="name"><br>-->
     <input type="submit" value="Submit">
 </form>
 </body>
