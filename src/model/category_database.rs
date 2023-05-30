@@ -1,30 +1,30 @@
 use std::arch::asm;
-use sqlx::Error;
+use sqlx::{Error, query_as};
 use sqlx::postgres::PgPoolOptions;
 use crate::model::database::{categories, posts};
 use sqlx::Row;
 
 
-//     pub async fn get_all_categories_database() ->Result<Vec<categories>,Error>
-//     {
-//         dotenv::dotenv().expect("Unable to load environment variables from .env file");
-//
-//         let db_url = std::env::var("DATABASE_URL").expect("Unable to read DATABASE_URL env var");
-//
-//         let mut pool = PgPoolOptions::new()
-//             .max_connections(100)
-//             .connect(&db_url)
-//             .await.expect("Unable to connect to Postgres");
-//
-//         let  all_categories = sqlx::query_as::<_, categories>("select name from categories")
-//
-//       //  let  rows = sqlx::query_as::<_,categories>("SELECT * FROM categories")
-//             .fetch_all(&pool)
-//             .await.expect("Unable to");
-//
-//
-//         Ok(all_categories)
-// }
+    pub async fn get_all_categories_database() ->Result<Vec<categories>,Error>
+    {
+        dotenv::dotenv().expect("Unable to load environment variables from .env file");
+
+        let db_url = std::env::var("DATABASE_URL").expect("Unable to read DATABASE_URL env var");
+
+        let mut pool = PgPoolOptions::new()
+            .max_connections(100)
+            .connect(&db_url)
+            .await.expect("Unable to connect to Postgres");
+
+        let  all_categories = sqlx::query_as::<_, categories>("select name from categories")
+
+      //  let  rows = sqlx::query_as::<_,categories>("SELECT * FROM categories")
+            .fetch_all(&pool)
+            .await.expect("Unable to");
+
+
+        Ok(all_categories)
+}
 
 
 pub async fn category_controller_database_function(category:String)->Result<Vec<posts>,Error>
@@ -86,11 +86,28 @@ pub async fn delete_category_database(to_delete_category: &String) -> Result<(),
 
     let to_delete_category =to_delete_category;
 
-    sqlx::query("delete from categories where name =$1")
+//
+// let delete_from_category_table=query_as!("delete from posts where name=$1");
+//
+//     let delete_from_posts_table =query_as!("delete from posts where name=$1");
+
+//     sqlx::query(r#"delete from posts where name=$1
+//
+// delete from categories where name=$1"#
+// )
+   // sqlx::query::join(delete_from_posts_table,delete_from_category_table)
+    sqlx::query("delete from posts where name=$1")
         .bind(to_delete_category)
         .execute(&pool)
         .await
         .expect("Unable to delete post");
+
+    sqlx::query("delete from categories where name=$1")
+        .bind(to_delete_category)
+        .execute(&pool)
+        .await
+        .expect("Unable to delete post");
+
     println!("Successfully deleted");
 
     Ok(())

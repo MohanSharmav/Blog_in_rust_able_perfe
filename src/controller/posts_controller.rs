@@ -4,6 +4,7 @@ use actix_web::{web, App, HttpResponse, HttpServer, HttpRequest};
 use actix_web::web::Form;
 use serde::Deserialize;
 use serde_json::json;
+use crate::model::category_database::get_all_categories_database;
 use crate::model::database::posts;
 use crate::model::posts_database::{create_new_post_database, delete_post_database, update_post_database};
 
@@ -13,7 +14,10 @@ pub async fn get_new_post() -> HttpResponse {
     handlebars
          .register_template_string("new_post", &index_template).expect("TODO: panic message");
 
-    let html = handlebars.render("new_post", &json!({"o":"ax"})).unwrap() ;
+    let all_categories = get_all_categories_database().await.expect("TODO: panic message");
+
+
+    let html = handlebars.render("new_post", &json!({"all_categories":all_categories})).unwrap() ;
     HttpResponse::Ok()
         .content_type("text/html; charset=utf-8")
         .body(html)
