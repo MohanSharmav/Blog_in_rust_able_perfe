@@ -70,7 +70,7 @@ async fn main() -> Result<()>{
 //posts
               .service(web::resource("/posts").to(pagination_display))
               .service(web::resource("/posts/new").to(get_new_post))
-              .service(web::resource("/posts").route(web::post().to(receive_new_posts)))
+              .service(web::resource("/new_post").route(web::post().to(receive_new_posts)))
               .service(web::resource("/posts/{title}").to(get_single_post))
               .service(web::resource("/posts/{title}/edit").route(web::get().to(page_to_update_post)))
 
