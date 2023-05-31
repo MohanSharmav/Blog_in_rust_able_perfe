@@ -75,7 +75,11 @@ div.content {
 
 <div class="content">
     MAIN PAGE
-
+<p class="listing category">
+    {{#each o}}
+        <a href="/categories/{{this}}"><strong>{{this}}</strong></a>   &nbsp;&nbsp;&nbsp;   <a href="/delete_category/{{this}}">Delete</a></p>
+    {{/each}}
+    </p>
         <div class="row">
             <div class="col-12">
                 <table class="table table-bordered">
@@ -117,21 +121,21 @@ div.content {
         </div>
 
 
-<p class="listing category">
-    {{#each o}}
-        <a href="/categories/{{this}}"><li>{{this}}</a>      <a href="/delete_category/{{this}}">Delete</a></p>
-    {{/each}}
-    </p>
+<!--<p class="listing category">-->
+<!--    {{!--#each o}}-->
+<!--        <a href="/categories/{{this}}"><li>{{this}}</a>      <a href="/delete_category/{{this}}">Delete</a></p>-->
+<!--    {{/each--}}-->
+<!--    </p>-->
 
-    <p>
-        {{#each tiger}}
-        <a href="/posts/{{this.title}}">
-            {{#each this}}  " "
-                {{ this }}
-            {{/each}}"   "<a href="/delete_post/{{this.title}}">Delete </a> "    "<a href="/posts/{{this.title}}/edit">update</a> <br>
-        {{/each}}</a>
-    <P>
-    <ul>
+<!--    <p>-->
+<!--        {{!--#each tiger}}-->
+<!--        <a href="/posts/{{this.title}}">-->
+<!--            {{#each this}}  " "-->
+<!--                {{ this }}-->
+<!--            {{/each}}"   "<a href="/delete_post/{{this.title}}">Delete </a> "    "<a href="/posts/{{this.title}}/edit">update</a> <br>-->
+<!--        {{/each--}}</a>-->
+<!--    <P>-->
+<!--    <ul>-->
 
 
 
@@ -148,12 +152,12 @@ div.content {
 
 
 
-    <div class="pagination_logic">
-        {{#each pages_count }}
-            <a href="?page={{this}}">{{this}}</a>
-        {{/each}}
-    </div>
-asdas
+<!--    <div class="pagination_logic">-->
+<!--        {{!--#each pages_count }}-->
+<!--            <a href="?page={{this}}">{{this}}</a>-->
+<!--        {{/each--}}-->
+<!--    </div>-->
+    <button type="button" href="/logout">Logout</button>
 
 </div>
 <!--<div class="pagination_section">-->
@@ -166,6 +170,7 @@ asdas
 
 <!--</div>-->
 </p>
+
 </body>
 </html>
 
