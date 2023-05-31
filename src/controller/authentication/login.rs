@@ -23,7 +23,7 @@ use argon2::{Argon2, PasswordHash, PasswordHasher, PasswordVerifier};
 
 use argonautica::{Hasher, Verifier};
 use hmac::{Hmac, Mac};
-use jwt::SignWithKey;
+use jwt::{SignWithKey, VerifyWithKey};
 use sha2::Sha256;
 
 
@@ -53,9 +53,10 @@ pub async fn get_login_page() -> HttpResponse {
         .body(html)
 }
 
-pub async fn get_data_from_login_page(form: web::Form<user>, req: HttpRequest) -> Redirect
+pub async fn get_data_from_login_page(form: web::Form<user>, req: HttpRequest,user: Option<Identity>) -> Redirect
 {
 println!("🦋");
+    check_user(user).await;
 
  let user = &form.username;
     let password=&form.password.to_string();
@@ -96,7 +97,8 @@ println!("🦋");
 
 println!("🐰🐰🐰🐰🐰{:?}",hash);
 
-    // let stored_hash = PasswordHash::new(password).unwrap();
+
+        // let stored_hash = PasswordHash::new(password).unwrap();
     // let pw_valid = Argon2::default()
     //     .verify_password(password.as_bytes(), &stored_hash)
     //     .is_ok();
@@ -111,7 +113,7 @@ let mut verifier=Verifier::default();
 
 
 if is_valid{
-    println!("pass")
+    println!("🕸️🕸️🕸️🕸️🕸️🕸️🕸️🕸️🕸️pass")
 }else {
     println!("fail")
 }
