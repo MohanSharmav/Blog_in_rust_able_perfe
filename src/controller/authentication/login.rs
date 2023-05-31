@@ -27,6 +27,8 @@ use jwt::SignWithKey;
 use sha2::Sha256;
 
 
+
+
 // use actix_session::storage::RedisSessionStore;
 
 
@@ -65,6 +67,8 @@ println!("🦋");
     handlebars
         .register_template_string("message_display", &index_template).expect("TODO: panic message");
 
+
+
     //
     // let stored_password = match password {
     //     None => {
@@ -82,14 +86,15 @@ println!("🦋");
     // println!("{:?}",pw_valid);
     //
 
-    // let hash_secret = std::env::var("HASH_SECRET").expect("HASH_SECRET must be set!");
-    // let mut hasher = Hasher::default();
-    // let hash = hasher
-    //     .with_password(password)
-    //     .with_secret_key(hash_secret)
-    //     .hash()
-    //     .unwrap();
+    let hash_secret = std::env::var("HASH_SECRET").expect("HASH_SECRET must be set!");
+    let mut hasher = Hasher::default();
+    let hash = hasher
+        .with_password(password)
+        .with_secret_key(hash_secret)
+        .hash()
+        .unwrap();
 
+println!("🐰🐰🐰🐰🐰{:?}",hash);
 
 let x=login_database(user, password).await;
 
