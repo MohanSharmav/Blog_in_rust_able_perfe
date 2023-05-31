@@ -12,6 +12,7 @@ use actix_web::{
     http::StatusCode,
     middleware, App, HttpMessage as _, HttpRequest, HttpServer, Responder,
 };
+use actix_web::web::Redirect;
 use crate::model::authentication::login_database::login_database;
 
 
@@ -24,6 +25,10 @@ use argonautica::{Hasher, Verifier};
 use hmac::{Hmac, Mac};
 use jwt::SignWithKey;
 use sha2::Sha256;
+
+
+// use actix_session::storage::RedisSessionStore;
+
 
 #[derive(Debug, Clone, PartialEq,Deserialize)]
 pub struct user{
@@ -46,7 +51,7 @@ pub async fn get_login_page() -> HttpResponse {
         .body(html)
 }
 
-pub async fn get_data_from_login_page(form: web::Form<user>,    req: HttpRequest) -> HttpResponse
+pub async fn get_data_from_login_page(form: web::Form<user>, req: HttpRequest) -> Redirect
 {
 println!("🦋");
 
@@ -96,16 +101,27 @@ if(x==1) {
 
    // web::Redirect::to("/users?page=1")
 
+    web::Redirect::to("/admin?page=1&limit=2")
 
-    let success_message="user successfully authenticated";
-    let html = handlebars.render("message_display", &json!({"message":success_message})).unwrap() ;
-
-
-    HttpResponse::Ok()
-        .content_type("text/html; charset=utf-8")
-        .body(html)
+    // let success_message="user successfully authenticated";
+    // let html = handlebars.render("message_display", &json!({"message":success_message})).unwrap() ;
+    //
+    //
+    // HttpResponse::Ok()
+    //     .content_type("text/html; charset=utf-8")
+    //     .body(html)
 }else{
-     HttpResponse::BadRequest().body("Invalid email or password")
+
+    web::Redirect::to("/login")
+
+    // let success_message="user successfully authenticated";
+    // let html = handlebars.render("message_display", &json!({"message":success_message})).unwrap() ;
+    //
+    //
+    // HttpResponse::Ok()
+    //     .content_type("text/html; charset=utf-8")
+    //     .body(html)
+     // HttpResponse::BadRequest().body("Invalid email or password")
 
 }
 
@@ -119,4 +135,14 @@ pub async fn logout(id: Identity) -> impl Responder {
 
     //web::Redirect::to("/").using_status_code(StatusCode::FOUND)
     web::Redirect::to("/")
+}
+
+
+pub async fn check_user(user: Option<Identity>) -> impl Responder {
+    if let Some(user) = user {
+        web::Redirect::to("/admin?page=1&limit=2")
+    } else {
+        web::Redirect::to("/")
+
+    }
 }
