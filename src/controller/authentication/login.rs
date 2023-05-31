@@ -86,7 +86,7 @@ println!("🦋");
     //
     // println!("{:?}",pw_valid);
     //
-
+// Todo get the password from register page and send it to database use this
     let hash_secret = "123";
     let mut hasher = Hasher::default();
     let hash = hasher
@@ -102,7 +102,7 @@ println!("🐰🐰🐰🐰🐰{:?}",hash);
     // let pw_valid = Argon2::default()
     //     .verify_password(password.as_bytes(), &stored_hash)
     //     .is_ok();
-
+// Todo use this code to get the password from login page and check it with database ... use username to get the password from database
 let mut verifier=Verifier::default();
     let is_valid=verifier
         .with_hash(hash)
