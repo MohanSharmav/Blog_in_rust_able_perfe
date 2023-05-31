@@ -86,7 +86,7 @@ println!("🦋");
     // println!("{:?}",pw_valid);
     //
 
-    let hash_secret = std::env::var("HASH_SECRET").expect("HASH_SECRET must be set!");
+    let hash_secret = "123";
     let mut hasher = Hasher::default();
     let hash = hasher
         .with_password(password)
@@ -95,6 +95,28 @@ println!("🦋");
         .unwrap();
 
 println!("🐰🐰🐰🐰🐰{:?}",hash);
+
+    // let stored_hash = PasswordHash::new(password).unwrap();
+    // let pw_valid = Argon2::default()
+    //     .verify_password(password.as_bytes(), &stored_hash)
+    //     .is_ok();
+
+let mut verifier=Verifier::default();
+    let is_valid=verifier
+        .with_hash(hash)
+        .with_password(password)
+        .with_secret_key(hash_secret)
+        .verify()
+        .unwrap() ;
+
+
+if is_valid{
+    println!("pass")
+}else {
+    println!("fail")
+}
+
+
 
 let x=login_database(user, password).await;
 
